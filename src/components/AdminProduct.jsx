@@ -1,55 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react"
 
 const AdminProduct = () => {
-    const initialFormState = { name: '', price: '', stock: '', picture:'' }
-  const [form, setForm] = useState({...initialFormState});
+    const [products, setProducts] = useState([])
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    fetch('http://localhost:5000/product', {
-        method: "POST",
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(form)
-    })
+    useEffect(() => {
+        fetch('http://localhost:5000/product')
         .then((response) => response.json())
-        .then((result) => {
-            console.log(result)
-        })
-        .then(() => setForm({...initialFormState}))
-    .catch((error) => console.error(error))
-  }
+        .then((products) => setProducts(products))
+        .catch((error) => console.error(error))
+    }, []);
 
-  const handleChange = (event) => {
-    const newData = { ...form };
-    newData[event.target.name] = event.target.value;
+    return (
+        <table className="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Stock</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {products.map((product,index) => {
+                    return (
+                    <tr key={index}>
+                        <th scope="row">{product.id}</th>
+                        <td>{product.name}</td>
+                        <td>{product.price} €</td>
+                        <td>{product.stock}</td>
+                        <td>
+                            <button className="btn btn-primary">Edit</button>
+                            <button className="btn btn-danger">Delete</button>
+                        </td>
+                    </tr>    
+                    )
+                })}
+            </tbody>
+        </table>
+    )
 
-    setForm(newData);
-  }
-
-  return (
-    <form onSubmit={handleSubmit} method="POST">
-      <div>
-        <label htmlFor="name" className="form-label">Name</label>
-        <input type="text" name="name" id="name" className="form-control" onChange={handleChange} value={form.name} />
-      </div>
-      <div>
-        <label htmlFor="price" className="form-label">Price</label>
-        <input type="text" name="price" id="price" className="form-control" onChange={handleChange} value={form.price} />
-      </div>
-      <div>
-        <label htmlFor="stock" className="form-label">Stock</label>
-        <input name="stock" id="stock" className="form-control" onChange={handleChange} value={form.stock}></input>
-      </div>
-      <div>
-        <label htmlFor="picture" className="form-label">Picture</label>
-        <input name="picture" id="picture" className="form-control" onChange={handleChange} value={form.picture}></input>
-      </div>
-
-      <div><input type="submit" value="Envoyer" className="btn btn-info" /></div>
-    </form>
-  );
 }
 
-export default AdminProduct;
+export default AdminProduct

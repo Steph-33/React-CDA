@@ -27,9 +27,6 @@ const Contact = () => {
 
   return (
     <form onSubmit={handleSubmit} method="POST">
-      <pre>
-        {JSON.stringify(form)}
-      </pre>
       <div>
         <label htmlFor="name" className="form-label">Name</label>
         <input type="text" name="name" id="name" className="form-control" onChange={handleChange} value={form.name} />

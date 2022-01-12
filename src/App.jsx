@@ -4,6 +4,7 @@ import About from "./components/About";
 import Navbar from "./components/Navbar";
 import NotFound from "./components/NotFound";
 import Contact from "./components/Contact";
+import AdminProduct from "./components/AdminProduct";
 
 const App = () => {
 
@@ -14,6 +15,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/about-us" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/admin-product" element={<AdminProduct />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

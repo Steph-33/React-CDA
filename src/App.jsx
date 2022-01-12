@@ -6,6 +6,7 @@ import NotFound from "./components/NotFound";
 import Contact from "./components/Contact";
 import CreateProduct from "./components/CreateProduct";
 import AdminProduct from "./components/AdminProduct";
+import ShowProduct from "./components/ShowProduct";
 
 const App = () => {
 
@@ -18,6 +19,8 @@ const App = () => {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/admin/product/new" element={<CreateProduct />} />
                 <Route path="/admin/product" element={<AdminProduct />} />
+                <Route path="/admin/product/:id/edit" element={<CreateProduct />} />
+                <Route path="/admin/product/detail/:id" element={<ShowProduct/>}/>
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

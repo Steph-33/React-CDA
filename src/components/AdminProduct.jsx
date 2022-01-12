@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 
 const AdminProduct = () => {
     const [products, setProducts] = useState([])
@@ -9,6 +10,20 @@ const AdminProduct = () => {
         .then((products) => setProducts(products))
         .catch((error) => console.error(error))
     }, []);
+
+    const handleDelete = (event, id) => {
+        event.preventDefault();
+        fetch(`http://localhost:5000/product/${id}` ,{
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch((error) => console.error(error))
+        const newProducts = products.filter((product) =>{
+            return product.id !== parseInt(id)
+          })
+        setProducts(newProducts);
+    }
 
     return (
         <table className="table">
@@ -30,8 +45,8 @@ const AdminProduct = () => {
                         <td>{product.price} €</td>
                         <td>{product.stock}</td>
                         <td>
-                            <button className="btn btn-primary">Edit</button>
-                            <button className="btn btn-danger">Delete</button>
+                            <Link to={`/admin/product/${product.id}/edit`} className="btn btn-primary">Edit</Link>
+                            <button onClick={(event) => handleDelete(event, product.id)} className="btn btn-danger">Delete</button>
                         </td>
                     </tr>    
                     )

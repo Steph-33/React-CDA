@@ -7,18 +7,53 @@ import Contact from "./components/Contact";
 import CreateProduct from "./components/CreateProduct";
 import AdminProduct from "./components/AdminProduct";
 import ShowProduct from "./components/ShowProduct";
+import Basket from "./components/Basket";
+import { useEffect, useState } from "react";
 
 const App = () => {
+    let storedBasket = localStorage.getItem('product');
+    storedBasket = storedBasket ? JSON.parse(storedBasket) : []
+
+    const [basket, setBasket] = useState(storedBasket);   
+
+    const handleAddBasket = (id) => {
+        const newBasket = [...basket];
+
+        const basketItem = newBasket.find(basketItem => {
+          if (basketItem.id === id) {
+            basketItem.quantity++;
+            return true;
+          }
+          return false;
+        });
+    
+        if (!basketItem) {
+          newBasket.push({ id, quantity: 1 })
+        }
+        setBasket(newBasket);
+    }
+
+    useEffect(() => {
+        const gettedItem = localStorage.getItem('products');
+        if(gettedItem){
+            setBasket(JSON.parse(gettedItem));
+        }
+    }, [])
+
+    useEffect(() => {
+        localStorage.setItem('products', JSON.stringify(basket));
+    }, [basket]);
 
     return(
         <>  
-            <Navbar/>
+            <Navbar data={basket}/>
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home handleAddBasket={handleAddBasket}/>} />
                 <Route path="/about-us" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/admin/product/new" element={<CreateProduct />} />
                 <Route path="/admin/product" element={<AdminProduct />} />
+                <Route path="/admin/product/basket" element={<Basket />} />
                 <Route path="/admin/product/:id/edit" element={<CreateProduct />} />
                 <Route path="/admin/product/detail/:id" element={<ShowProduct/>}/>
                 <Route path="*" element={<NotFound />} />

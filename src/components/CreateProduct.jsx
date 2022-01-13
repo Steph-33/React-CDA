@@ -16,9 +16,7 @@ const CreateProduct = () => {
         body: JSON.stringify(form)
     })
         .then((response) => response.json())
-        .then((result) => {
-            console.log(result)
-        })
+        .then((result) => console.log(result))
         .then(() => setForm({...initialFormState}))
     .catch((error) => console.error(error))
   }
@@ -33,9 +31,7 @@ const CreateProduct = () => {
         body: JSON.stringify(form)
     })
         .then((response) => response.json())
-        .then((result) => {
-            console.log('result ==========> ',result)
-        })
+        .then((result) => console.log(result))
         .then(() => setForm({...initialFormState}))
     .catch((error) => console.error(error))
   }

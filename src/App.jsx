@@ -9,6 +9,8 @@ import AdminProduct from "./components/AdminProduct";
 import ShowProduct from "./components/ShowProduct";
 import Basket from "./components/Basket";
 import { useEffect, useState } from "react";
+import DeliveryAddress from "./components/DeliveryAddress";
+import Payment from "./components/Payment";
 
 const App = () => {
     let storedBasket = localStorage.getItem('product');
@@ -44,6 +46,10 @@ const App = () => {
         localStorage.setItem('products', JSON.stringify(basket));
     }, [basket]);
 
+    const resetBasket = () => {
+        setBasket([]);
+    }
+
     return(
         <>  
             <Navbar data={basket}/>
@@ -56,6 +62,8 @@ const App = () => {
                 <Route path="/admin/product/basket" element={<Basket />} />
                 <Route path="/admin/product/:id/edit" element={<CreateProduct />} />
                 <Route path="/admin/product/detail/:id" element={<ShowProduct/>}/>
+                <Route path="/admin/product/delivery-address" element={<DeliveryAddress/>}/>
+                <Route path="/admin/product/payment" element={<Payment data={basket} resetBasket={resetBasket}/>}/>
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>
